@@ -16,6 +16,10 @@ namespace BooksSpr2026_sec02.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Book> Books { get; set; }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<CartItem> CartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

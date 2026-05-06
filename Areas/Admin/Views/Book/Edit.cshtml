@@ -1,0 +1,68 @@
+﻿@model BookWithCategoriesVM
+<h1>Add a New Book</h1>
+
+<div class="border-bottom colcol-md-10 mx-auto">
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+
+        <input asp-for="Book.BookId" hidden />
+
+        <div asp-validation-summary="All" class="text-danger">
+        </div>
+
+        <div class="form-group m-4">
+            <label asp-for="Book.BookTitle" class="control-label col-md-2"> </label>
+            <div>
+                <input asp-for="Book.BookTitle" class="form-control col-6" />
+                <span asp-validation-for="Book.BookTitle" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <label asp-for="Book.Author" class="control-label col-md-2"> </label>
+            <div>
+                <input asp-for="Book.Author" class="form-control col-6" />
+                <span asp-validation-for="Book.Author" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <label asp-for="Book.Price" class="control-label col-md-2"> </label>
+            <div>
+                <input asp-for="Book.Price" class="form-control col-6" />
+                <span asp-validation-for="Book.Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <label asp-for="Book.CategoryID" class="control-label col-md-2"> </label>
+            <div>
+                <select asp-for="Book.CategoryID" class="form-control" asp-items="@Model.ListOfCategories">
+                    <option disabled selected>Select a category</option>
+                </select>
+                <span asp-validation-for="Book.CategoryID" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <label class="control-label col-6">Description</label>
+            <div>
+                <input asp-for="Book.Description" class="form-control col-6" />
+                <span asp-validation-for="Book.Description" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <div>
+                <input type="file" name="imgFile" class="form-control col-md-10" />
+            </div>
+        </div>
+
+        <div class="form-group m-4">
+            <input type="submit" value="Update New Book" class="form-control btn btn-outline-primary col-6" />
+        </div>
+
+    </form>
+
+
+</div>

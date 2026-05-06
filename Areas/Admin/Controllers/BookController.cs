@@ -78,6 +78,58 @@ namespace BooksSpr2026_sec02.Areas.Admin.Controllers
             return View(bookWithCategoriesVMobj); //if model is invalid, the form will be displayed with the appropriate error messages
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Book book = _dbContext.Books.Find(id);
+
+            IEnumerable<SelectListItem> listOfCategories = _dbContext.Categories.ToList().Select(o => new SelectListItem { Text = o.Name, Value = o.CategoryId.ToString() });
+
+            BookWithCategoriesVM bookWithCategoriesVM = new BookWithCategoriesVM();
+
+            bookWithCategoriesVM.Book = book;
+
+            bookWithCategoriesVM.ListOfCategories = listOfCategories;
+
+            return View(bookWithCategoriesVM);
+        }
+        [HttpPost]
+        public IActionResult Edit(BookWithCategoriesVM bookWithCategoriesVMobj, IFormFile imgFile)
+        {
+            string wwwrootPath = _environment.WebRootPath;
+
+            if (ModelState.IsValid)
+            {
+                if(imgFile != null)
+                {
+                    if (!string.IsNullOrEmpty(bookWithCategoriesVMobj.Book.ImgUrl))
+                    {
+                        var oldImgPath = Path.Combine(wwwrootPath, bookWithCategoriesVMobj.Book.ImgUrl.TrimStart('\\'));
+
+                        if(System.IO.File.Exists(oldImgPath))
+                        {
+                            System.IO.File.Delete(oldImgPath);
+                        }
+
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(wwwrootPath, @"\Images" + imgFile.FileName), FileMode.Create))
+                    {
+                        imgFile.CopyTo(fileStream);
+                    }
+
+                    bookWithCategoriesVMobj.Book.ImgUrl = @"\Images\" + imgFile.FileName;
+                }
+
+                _dbContext.Books.Update(bookWithCategoriesVMobj.Book);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction("Index");
+
+            }
+        }
+
+
 
     }
 }
